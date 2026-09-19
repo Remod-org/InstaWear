@@ -1,4 +1,4 @@
-﻿#region License (GPL v2)
+#region License (GPL v2)
 /*
     DESCRIPTION
     Copyright (c) 2024 RFC1920 <desolationoutpostpve@gmail.com>
@@ -23,7 +23,7 @@ using Oxide.Core;
 
 namespace Oxide.Plugins
 {
-    [Info("InstaWear", "RFC1920", "0.0.1")]
+    [Info("InstaWear", "RFC1920", "0.0.2")]
     [Description("Clothing items are worn on pickup or collection")]
     internal class InstaWear : RustPlugin
     {
@@ -38,7 +38,7 @@ namespace Oxide.Plugins
 
         private object OnItemPickup(Item item, BasePlayer player)
         {
-            if (item.CanMoveTo(player.inventory.containerWear))
+            if (item.CanMoveTo(player,player.inventory.containerWear))
             {
                 if (!configData.RequirePermission || (configData.RequirePermission && permission.UserHasPermission(player?.UserIDString, permUse)))
                 {
@@ -58,7 +58,7 @@ namespace Oxide.Plugins
         protected override void LoadDefaultConfig()
         {
             Puts("Creating new config file.");
-            ConfigData config = new ConfigData
+            ConfigData config = new()
             {
                 RequirePermission = false,
                 Version = Version
